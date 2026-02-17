@@ -12,13 +12,22 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Build Binary
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o mms main.go
+
       - name: Copy files via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          source: "."
+          source: "mms,app/templates,app/static,Dockerfile,docker-compose.yml,.dockerignore"
           target: "/home/${{ secrets.SERVER_USER }}/mms"
           strip_components: 0
 
