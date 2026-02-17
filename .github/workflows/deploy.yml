@@ -9,6 +9,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Copy files via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          source: "."
+          target: "/home/${{ secrets.SERVER_USER }}/mms"
+          strip_components: 0
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -16,20 +29,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            # Define target directory
-            TARGET_DIR="/home/${{ secrets.SERVER_USER }}/mms"
-            
-            # Check if directory exists, if not clone it
-            if [ ! -d "$TARGET_DIR" ]; then
-              echo "Directory does not exist. Cloning repository..."
-              git clone https://github.com/ssebi/mms.git "$TARGET_DIR"
-            fi
-            
-            # Navigate to project directory
-            cd "$TARGET_DIR"
-            
-            # Pull latest changes
-            git pull origin main
-            
-            # Restart containers with fresh build using modern docker compose
+            cd /home/${{ secrets.SERVER_USER }}/mms
             docker compose up --build -d
