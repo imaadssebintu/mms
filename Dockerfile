@@ -12,10 +12,10 @@ COPY mms .
 COPY app/templates ./app/templates
 
 # Set environment variables
-ENV PORT=8082
+ENV PORT=8000
 
 # Expose port
-EXPOSE 8082
+EXPOSE 8000
 
 # Run the application
 CMD ["./mms"]
