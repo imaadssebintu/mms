@@ -1,0 +1,14 @@
+.git
+.vscode
+.gemini
+.agent
+node_modules
+tmp
+*.exe
+*.bin
+mms
+vendor
+brain
+walkthrough.md
+task.md
+implementation_plan.md

@@ -1,0 +1,26 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            # Navigate to project directory (Adjust path as needed)
+            cd /home/${{ secrets.SERVER_USER }}/mms
+            
+            # Pull latest changes
+            git pull origin main
+            
+            # Restart containers with fresh build
+            docker-compose up --build -d

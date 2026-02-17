@@ -18,7 +18,7 @@ func SetupDashboardRoutes(app *fiber.App) {
 
 func ShowDashboard(c *fiber.Ctx) error {
 	user := c.Locals("user")
-	return c.Render("dashboard", fiber.Map{
+	return c.Render("dashboard/index", fiber.Map{
 		"Title":       "Dashboard",
 		"CurrentPage": "dashboard",
 		"User":        user,
