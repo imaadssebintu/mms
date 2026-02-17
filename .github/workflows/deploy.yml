@@ -16,11 +16,20 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            # Navigate to project directory (Adjust path as needed)
-            cd /home/${{ secrets.SERVER_USER }}/mms
+            # Define target directory
+            TARGET_DIR="/home/${{ secrets.SERVER_USER }}/mms"
+            
+            # Check if directory exists, if not clone it
+            if [ ! -d "$TARGET_DIR" ]; then
+              echo "Directory does not exist. Cloning repository..."
+              git clone https://github.com/ssebi/mms.git "$TARGET_DIR"
+            fi
+            
+            # Navigate to project directory
+            cd "$TARGET_DIR"
             
             # Pull latest changes
             git pull origin main
             
-            # Restart containers with fresh build
-            docker-compose up --build -d
+            # Restart containers with fresh build using modern docker compose
+            docker compose up --build -d
