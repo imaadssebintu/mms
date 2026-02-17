@@ -6,7 +6,6 @@ node_modules
 tmp
 *.exe
 *.bin
-mms
 vendor
 brain
 walkthrough.md

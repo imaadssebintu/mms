@@ -10,7 +10,6 @@ COPY mms .
 
 # Copy templates and static assets
 COPY app/templates ./app/templates
-# COPY app/static ./app/static 
 
 # Set environment variables
 ENV PORT=8082
