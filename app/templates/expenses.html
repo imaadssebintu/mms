@@ -1,0 +1,340 @@
+<div class="p-4 lg:p-6 space-y-6 animate-in fade-in duration-500">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-1">
+        <div>
+            <h2 class="text-lg font-black text-slate-900 tracking-tight uppercase flex items-center gap-2.5">
+                <span class="w-1 h-6 bg-gradient-to-b from-rose-500 to-orange-500 rounded-full"></span>
+                Expense Ledger
+            </h2>
+            <div class="flex items-center gap-2 mt-0.5">
+                <span class="text-slate-400 text-[9px] font-bold uppercase tracking-wider">SYSTEM NODE:
+                    FINANCIAL_RECORDS</span>
+                <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                <span class="text-rose-600 text-[9px] font-bold uppercase tracking-wider">SECURE AUDIT TRAIL</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <div class="relative group w-full md:w-72">
+                <i
+                    class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-[10px] group-focus-within:text-rose-500 transition-colors"></i>
+                <input type="text" id="expenseSearchInput" placeholder="Filter by category or details..."
+                    class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 placeholder:text-slate-400 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/5 transition-all outline-none shadow-sm">
+            </div>
+            <button onclick="openExpenseModal()"
+                class="px-4 py-2 bg-gradient-to-br from-rose-500 to-orange-600 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-2 whitespace-nowrap">
+                <i class="fas fa-plus text-[8px]"></i> <span>Record</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center text-sm"><i
+                    class="fas fa-money-bill-transfer"></i></div>
+            <div>
+                <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-tight">MTD Spend</p>
+                <p class="text-xs font-black text-slate-900 leading-none" id="stat-mtd-spend">--</p>
+            </div>
+        </div>
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-sm"><i
+                    class="fas fa-gas-pump"></i></div>
+            <div>
+                <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-tight">Maintenance</p>
+                <p class="text-xs font-black text-slate-900 leading-none" id="stat-maintenance">--</p>
+            </div>
+        </div>
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-500 flex items-center justify-center text-sm"><i
+                    class="fas fa-screwdriver-wrench"></i></div>
+            <div>
+                <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-tight">Operations</p>
+                <p class="text-xs font-black text-slate-900 leading-none" id="stat-ops">--</p>
+            </div>
+        </div>
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-slate-50 text-slate-500 flex items-center justify-center text-sm"><i
+                    class="fas fa-receipt"></i></div>
+            <div>
+                <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-tight">Transactions</p>
+                <p class="text-xs font-black text-slate-900 leading-none" id="stat-count">--</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expenses Table Section -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden min-h-[400px]">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-white border-b border-slate-100">
+                        <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest w-24">
+                            Timeline</th>
+                        <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest w-28">
+                            Classification</th>
+                        <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Description
+                        </th>
+                        <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest w-28">Asset
+                        </th>
+                        <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest w-32">Amount
+                        </th>
+                        <th
+                            class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest text-right w-20">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="expensesTableBody" class="divide-y divide-slate-50">
+                    <!-- Data loaded via JS -->
+                </tbody>
+            </table>
+
+            <!-- Skeleton Loading State -->
+            <div id="loadingIndicator" class="hidden py-6">
+                <div class="px-5 space-y-4">
+                    <div class="flex items-center gap-4 animate-pulse">
+                        <div class="h-4 bg-slate-50 rounded w-20"></div>
+                        <div class="h-4 bg-slate-50 rounded w-24"></div>
+                        <div class="h-4 bg-slate-50 rounded flex-1"></div>
+                        <div class="h-4 bg-slate-50 rounded w-24"></div>
+                    </div>
+                    <div class="flex items-center gap-4 animate-pulse opacity-60">
+                        <div class="h-4 bg-slate-50 rounded w-20"></div>
+                        <div class="h-4 bg-slate-50 rounded w-24"></div>
+                        <div class="h-4 bg-slate-50 rounded flex-1"></div>
+                        <div class="h-4 bg-slate-50 rounded w-24"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="noDataMessage" class="hidden py-16 text-center">
+                <div
+                    class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-slate-100">
+                    <i class="fas fa-magnifying-glass-dollar text-lg text-slate-300"></i>
+                </div>
+                <h3 class="text-[11px] font-black text-slate-900 uppercase">Clear Ledger</h3>
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">No expenditures matching
+                    criteria</p>
+            </div>
+
+            <div id="loadMoreTrigger" class="h-4"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Record Expense Modal -->
+<div id="expenseModal"
+    class="fixed inset-0 z-[100] hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300 opacity-0">
+    <div
+        class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl transform scale-95 transition-all duration-300 overflow-hidden border border-slate-200">
+        <div class="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div>
+                <h3 class="text-sm font-black text-slate-900 uppercase tracking-tight">Record Expenditure</h3>
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Authorized financial
+                    outflow registration</p>
+            </div>
+            <button onclick="closeExpenseModal()"
+                class="w-8 h-8 flex items-center justify-center bg-white rounded-xl border border-slate-200 text-slate-400 hover:text-rose-500 transition-all">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+        <form id="expenseForm" class="p-8 space-y-5">
+            <div class="grid grid-cols-2 gap-5">
+                <div class="space-y-1.5 col-span-2 md:col-span-1">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Transaction
+                        Date</label>
+                    <input type="date" name="date" required
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-bold text-slate-700 focus:bg-white focus:border-rose-500 transition-all outline-none">
+                </div>
+                <div class="space-y-1.5 col-span-2 md:col-span-1">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Budget
+                        Category</label>
+                    <select name="category" required
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-bold text-slate-700 focus:bg-white focus:border-rose-500 transition-all outline-none cursor-pointer appearance-none">
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Fuel">Fuel</option>
+                        <option value="Insurance">Insurance</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Salary">Salary</option>
+                        <option value="General">General Operations</option>
+                    </select>
+                </div>
+                <div class="space-y-1.5 col-span-2">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Financial
+                        Description</label>
+                    <textarea name="description" required rows="2" placeholder="Detail the expenditure purpose..."
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-bold text-slate-700 placeholder:text-slate-300 focus:bg-white focus:border-rose-500 transition-all outline-none resize-none"></textarea>
+                </div>
+                <div class="space-y-1.5 md:col-span-1">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Outflow Amount
+                        (UGX)</label>
+                    <input type="number" name="amount" required placeholder="0.00"
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-bold text-slate-700 placeholder:text-slate-300 focus:bg-white focus:border-rose-500 transition-all outline-none">
+                </div>
+                <div class="space-y-1.5 md:col-span-1">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Asset ID
+                        (Optional)</label>
+                    <input type="text" name="car_id" placeholder="Associated Vehicle ID"
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] font-bold text-slate-700 placeholder:text-slate-300 focus:bg-white focus:border-rose-500 transition-all outline-none">
+                </div>
+            </div>
+
+            <div class="pt-6 flex gap-4">
+                <button type="button" onclick="closeExpenseModal()"
+                    class="flex-1 px-6 py-3 bg-slate-100 text-slate-500 text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all">Abort</button>
+                <button type="submit"
+                    class="flex-[2] px-6 py-3 bg-gradient-to-br from-rose-500 to-orange-600 text-white text-[11px] font-black uppercase tracking-widest rounded-2xl hover:opacity-90 transition-all shadow-xl shadow-rose-500/20">Finalize
+                    Transaction</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    let page = 1;
+    let loading = false;
+    let hasMore = true;
+    let searchTerm = "";
+
+    const tableBody = document.getElementById('expensesTableBody');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const loadMoreTrigger = document.getElementById('loadMoreTrigger');
+    const noDataMessage = document.getElementById('noDataMessage');
+    const searchInput = document.getElementById('expenseSearchInput');
+
+    async function fetchExpenses(reset = false) {
+        if (loading || (!hasMore && !reset)) return;
+        if (reset) {
+            page = 1;
+            hasMore = true;
+            tableBody.innerHTML = '';
+            noDataMessage.classList.add('hidden');
+        }
+
+        loading = true;
+        if (page === 1) loadingIndicator.classList.remove('hidden');
+
+        try {
+            const response = await fetch(`/api/expenses?page=${page}&search=${encodeURIComponent(searchTerm)}`);
+            if (!response.ok) throw new Error('Query Protocol Failed');
+            const data = await response.json();
+
+            // Stats Update
+            if (page === 1 && data.total !== undefined) {
+                document.getElementById('stat-count').textContent = data.total;
+                const totalSpend = data.expenses.reduce((sum, e) => sum + e.amount, 0);
+                document.getElementById('stat-mtd-spend').textContent = `Ush ${totalSpend.toLocaleString()}`;
+            }
+
+            if (data.expenses && data.expenses.length > 0) {
+                data.expenses.forEach(expense => {
+                    const row = document.createElement('tr');
+                    row.className = "group hover:bg-slate-50/80 transition-all duration-200 border-b border-slate-50 last:border-0";
+
+                    const date = new Date(expense.date);
+                    const categoryColors = {
+                        'Maintenance': 'bg-rose-50 text-rose-600 border-rose-100',
+                        'Fuel': 'bg-amber-50 text-amber-600 border-amber-100',
+                        'Insurance': 'bg-indigo-50 text-indigo-600 border-indigo-100',
+                        'Salary': 'bg-emerald-50 text-emerald-600 border-emerald-100',
+                        'General': 'bg-slate-50 text-slate-600 border-slate-100'
+                    };
+                    const catClass = categoryColors[expense.category] || categoryColors['General'];
+
+                    row.innerHTML = `
+                        <td class="px-5 py-3">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-black text-slate-900 uppercase tracking-tight">${date.toLocaleDateString(undefined, { month: 'short', day: '2-digit', year: 'numeric' })}</span>
+                                <span class="text-[8px] font-bold text-slate-300 uppercase tracking-widest mt-0.5">${date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</span>
+                            </div>
+                        </td>
+                        <td class="px-5 py-3">
+                            <span class="px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-tight border ${catClass}">${expense.category}</span>
+                        </td>
+                        <td class="px-5 py-3">
+                            <span class="text-[10px] font-black text-slate-700 uppercase tracking-wide truncate block max-w-xs">${expense.description}</span>
+                        </td>
+                        <td class="px-5 py-3">
+                            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">${expense.car_plate || 'General'}</span>
+                        </td>
+                        <td class="px-5 py-3">
+                            <span class="text-[10px] font-black text-rose-600 tracking-tight">Ush ${expense.amount.toLocaleString()}</span>
+                        </td>
+                        <td class="px-5 py-3 text-right">
+                            <button onclick="deleteExpense(${expense.id})" class="w-7 h-7 flex items-center justify-center bg-white border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-500 rounded-lg transition-all shadow-sm ml-auto">
+                                <i class="fas fa-trash text-[9px]"></i>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                page++;
+                hasMore = data.has_more;
+            } else if (page === 1) {
+                noDataMessage.classList.remove('hidden');
+                hasMore = false;
+            } else {
+                hasMore = false;
+            }
+        } catch (error) {
+            console.error('Audit Sink Error:', error);
+        } finally {
+            loading = false;
+            loadingIndicator.classList.add('hidden');
+        }
+    }
+
+    // Modal Handling
+    const modal = document.getElementById('expenseModal');
+    function openExpenseModal() {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('opacity-100');
+            modal.children[0].classList.replace('scale-95', 'scale-100');
+        }, 10);
+        document.querySelector('[name="date"]').valueAsDate = new Date();
+    }
+    function closeExpenseModal() {
+        modal.classList.remove('opacity-100');
+        modal.children[0].classList.replace('scale-100', 'scale-95');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
+    // Search & Scroll logic
+    let debounce;
+    searchInput.addEventListener('input', (e) => {
+        searchTerm = e.target.value;
+        clearTimeout(debounce);
+        debounce = setTimeout(() => fetchExpenses(true), 400);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) fetchExpenses();
+    }, { threshold: 0.1 });
+    observer.observe(loadMoreTrigger);
+
+    // Form Submits
+    document.getElementById('expenseForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        data.amount = parseFloat(data.amount);
+        data.date = new Date(data.date).toISOString();
+        if (!data.car_id) delete data.car_id;
+
+        try {
+            const response = await fetch('/api/expenses/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                closeExpenseModal();
+                fetchExpenses(true);
+                e.target.reset();
+            }
+        } catch (err) { console.error(err); }
+    });
+
+    fetchExpenses();
+</script>

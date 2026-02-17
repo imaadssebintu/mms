@@ -1,0 +1,446 @@
+<div class="px-4 py-3 lg:px-6 lg:py-4 space-y-6 animate-in fade-in duration-500">
+    <!-- Header Section -->
+    <div class="mb-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-xl lg:text-lg font-black text-slate-900 tracking-tight uppercase">Dashboard
+                </h1>
+                <div class="flex items-center gap-2 mt-1">
+                    <span class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">SYSTEM NODE:
+                        DASHBOARD</span>
+                    <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                    <span class="text-emerald-600 text-[10px] font-bold uppercase tracking-wider">SECURE DATABASE
+                        ACCESS</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 sm:flex items-center gap-2">
+                <button
+                    class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 transition-all duration-200 text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+                    <i class="fas fa-file-export opacity-50"></i>Export Report
+                </button>
+                <a href="/cars/new"
+                    class="px-4 py-2 premium-gradient text-white rounded-xl hover:opacity-90 transition-all duration-200 text-[11px] font-bold shadow-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                    <i class="fas fa-plus"></i>Add Vehicle
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4">
+        <!-- Fleet Card (Indigo) -->
+        <div
+            class="group bg-white rounded-2xl border border-slate-200 p-2.5 md:p-3 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 relative overflow-hidden cursor-pointer">
+            <div
+                class="absolute top-0 right-0 w-14 h-14 md:w-20 md:h-20 bg-indigo-50 rounded-full -mr-7 -mt-7 md:-mr-10 md:-mt-10 transition-transform group-hover:scale-110">
+            </div>
+            <div class="flex items-center justify-between relative z-10">
+                <div>
+                    <p class="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Total
+                        Fleet</p>
+                    <p id="total-cars" class="text-lg md:text-xl font-black text-slate-900 leading-none">0</p>
+                </div>
+                <div
+                    class="w-7 h-7 md:w-9 md:h-9 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
+                    <i class="fas fa-car text-[10px] md:text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Valuation Card (Emerald) -->
+        <div
+            class="group bg-white rounded-2xl border border-slate-200 p-2.5 md:p-3 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 relative overflow-hidden cursor-pointer">
+            <div
+                class="absolute top-0 right-0 w-14 h-14 md:w-20 md:h-20 bg-emerald-50 rounded-full -mr-7 -mt-7 md:-mr-10 md:-mt-10 transition-transform group-hover:scale-110">
+            </div>
+            <div class="flex items-center justify-between relative z-10">
+                <div>
+                    <p class="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Total
+                        Valuation</p>
+                    <p id="total-value"
+                        class="text-base md:text-lg font-black text-slate-900 leading-none truncate w-32 md:w-auto">Ush
+                        0
+                    </p>
+                </div>
+                <div
+                    class="w-7 h-7 md:w-9 md:h-9 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-sm">
+                    <i class="fas fa-money-bill-wave text-[10px] md:text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings Card (Purple) -->
+        <div
+            class="group bg-white rounded-2xl border border-slate-200 p-2.5 md:p-3 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 relative overflow-hidden cursor-pointer">
+            <div
+                class="absolute top-0 right-0 w-14 h-14 md:w-20 md:h-20 bg-purple-50 rounded-full -mr-7 -mt-7 md:-mr-10 md:-mt-10 transition-transform group-hover:scale-110">
+            </div>
+            <div class="flex items-center justify-between relative z-10">
+                <div>
+                    <p class="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Net
+                        Earnings</p>
+                    <p id="total-profit"
+                        class="text-base md:text-lg font-black text-slate-900 leading-none truncate w-32 md:w-auto">Ush
+                        0
+                    </p>
+                </div>
+                <div
+                    class="w-7 h-7 md:w-9 md:h-9 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-all shadow-sm">
+                    <i class="fas fa-chart-line text-[10px] md:text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Receivables Card (Orange) -->
+        <div
+            class="group bg-white rounded-2xl border border-slate-200 p-2.5 md:p-3 hover:shadow-xl hover:shadow-orange-500/10 transition-all duration-300 relative overflow-hidden cursor-pointer">
+            <div
+                class="absolute top-0 right-0 w-14 h-14 md:w-20 md:h-20 bg-orange-50 rounded-full -mr-7 -mt-7 md:-mr-10 md:-mt-10 transition-transform group-hover:scale-110">
+            </div>
+            <div class="flex items-center justify-between relative z-10">
+                <div>
+                    <p class="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Total
+                        Receivables</p>
+                    <p id="total-debt"
+                        class="text-base md:text-lg font-black text-slate-900 leading-none truncate w-32 md:w-auto">Ush
+                        0
+                    </p>
+                </div>
+                <div
+                    class="w-7 h-7 md:w-9 md:h-9 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all shadow-sm">
+                    <i class="fas fa-hand-holding-dollar text-[10px] md:text-xs"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools & Filters -->
+    <div class="mb-5 flex flex-col md:flex-row gap-3 items-center justify-between">
+        <div class="relative w-full md:w-80 group">
+            <i
+                class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-[10px] transition-colors group-focus-within:text-indigo-500"></i>
+            <input type="text" id="carSearchInput" placeholder="Search fleet by plate or model..."
+                class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 placeholder:text-slate-400 focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 transition-all outline-none shadow-sm">
+        </div>
+
+        <div class="flex items-center gap-2 w-full md:w-auto">
+            <select id="inventory-status-filter"
+                class="flex-1 md:flex-none px-3 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-wider text-slate-600 focus:outline-none focus:ring-4 focus:ring-indigo-500/5 transition-all cursor-pointer">
+                <option value="all">All Vehicles</option>
+                <option value="available">Available</option>
+                <option value="sold">Sold</option>
+                <option value="reserved">Reserved</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6">
+        <!-- Car Inventory Section -->
+        <div class="space-y-3">
+            <div class="flex items-center gap-3 pl-1">
+                <div class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></div>
+                <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Live Inventory
+                </h3>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-white border-b border-slate-100">
+                                <th
+                                    class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest w-24">
+                                    Plate</th>
+                                <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                    Model & Make</th>
+                                <th
+                                    class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest w-20">
+                                    Year</th>
+                                <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                    Pricing (UGX)</th>
+                                <th
+                                    class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest text-right w-24">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="carInventoryBody" class="divide-y divide-slate-50">
+                            <!-- Loaded via JS -->
+                        </tbody>
+                    </table>
+
+                    <!-- Empty State -->
+                    <div id="carEmptyState" class="hidden py-12 text-center">
+                        <div
+                            class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-slate-100">
+                            <i class="fas fa-car-crash text-slate-300"></i>
+                        </div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">No Vehicles Found</p>
+                    </div>
+
+                    <div id="carLoadingIndicator" class="hidden py-6">
+                        <div class="px-5 space-y-4">
+                            <!-- Skeleton Rows -->
+                            <div class="flex items-center gap-4 animate-pulse">
+                                <div class="h-4 bg-slate-50 rounded w-16"></div>
+                                <div class="h-4 bg-slate-50 rounded flex-1"></div>
+                                <div class="h-4 bg-slate-50 rounded w-12"></div>
+                                <div class="h-4 bg-slate-50 rounded w-24"></div>
+                            </div>
+                            <div class="flex items-center gap-4 animate-pulse opacity-60">
+                                <div class="h-4 bg-slate-50 rounded w-16"></div>
+                                <div class="h-4 bg-slate-50 rounded flex-1"></div>
+                                <div class="h-4 bg-slate-50 rounded w-12"></div>
+                                <div class="h-4 bg-slate-50 rounded w-24"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="loadMoreCarsTrigger" class="h-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Debts Section -->
+        <div class="space-y-3">
+            <div class="flex items-center justify-between px-1">
+                <div class="flex items-center gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></div>
+                    <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">Receivables
+                        Tracking</h3>
+                </div>
+                <div class="relative w-40 group">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[9px]"></i>
+                    <input type="text" id="debtSearchInput" placeholder="Filter debts..."
+                        class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-200 rounded-xl text-[10px] font-bold text-slate-700 placeholder:text-slate-400 focus:border-orange-500 transition-all outline-none">
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-white border-b border-slate-100">
+                                <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                    Asset Plate</th>
+                                <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                    Client Identity/Phone</th>
+                                <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                    Balance Due</th>
+                                <th class="px-5 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                    Status / Timeline</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activeDebtsBody" class="divide-y divide-slate-50">
+                            <!-- Loaded via JS -->
+                        </tbody>
+                    </table>
+
+                    <!-- Debt Empty State -->
+                    <div id="debtEmptyState" class="hidden py-12 text-center">
+                        <div
+                            class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-slate-100">
+                            <i class="fas fa-check-double text-slate-300"></i>
+                        </div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">No Active Debts</p>
+                    </div>
+
+                    <div id="debtLoadingIndicator" class="hidden py-6">
+                        <div class="px-5 space-y-4">
+                            <div class="flex items-center gap-4 animate-pulse">
+                                <div class="h-4 bg-slate-50 rounded w-16"></div>
+                                <div class="h-4 bg-slate-50 rounded flex-1"></div>
+                                <div class="h-4 bg-slate-50 rounded w-20"></div>
+                                <div class="h-4 bg-slate-50 rounded w-24"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function fetchDashboardStats() {
+        try {
+            const response = await fetch("/api/dashboard-stats");
+            if (!response.ok) throw new Error("Failed to fetch dashboard stats");
+            const data = await response.json();
+
+            document.getElementById("total-cars").textContent = data.total_cars;
+            document.getElementById("total-value").textContent = `Ush ${data.total_value.toLocaleString()}`;
+            document.getElementById("total-profit").textContent = `Ush ${data.total_profit.toLocaleString()}`;
+            document.getElementById("total-debt").textContent = `Ush ${data.total_debt.toLocaleString()}`;
+
+            document.getElementById("new-cars-last-month").textContent = data.new_cars_last_month;
+            document.getElementById("value-increase-percentage").textContent = data.value_increase_percentage;
+            document.getElementById("revenue-percentage").textContent = data.revenue_percentage;
+            document.getElementById("debt-percentage").textContent = data.debt_percentage;
+        } catch (error) {
+            console.error("Error fetching dashboard stats:", error);
+        }
+    }
+
+    let carPage = 1;
+    let carLoading = false;
+    let carHasMore = true;
+    const carInventoryBody = document.getElementById("carInventoryBody");
+    const carLoadingIndicator = document.getElementById("carLoadingIndicator");
+    const loadMoreCarsTrigger = document.getElementById("loadMoreCarsTrigger");
+    const carSearchInput = document.getElementById("carSearchInput");
+
+    async function loadCarInventory(searchTerm = "") {
+        if (carLoading || !carHasMore) return;
+        carLoading = true;
+        carLoadingIndicator.classList.remove("hidden");
+        document.getElementById("carEmptyState").classList.add("hidden");
+
+        try {
+            const response = await fetch(`/api/car-inventory?page=${carPage}&search=${encodeURIComponent(searchTerm)}`);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const data = await response.json();
+
+            if (data.cars && data.cars.length > 0) {
+                data.cars.forEach(car => {
+                    const row = document.createElement("tr");
+                    row.className = "group hover:bg-slate-50/80 transition-all duration-200 border-b border-slate-50 last:border-0";
+                    row.innerHTML = `
+                        <td class="px-5 py-3">
+                            <span class="text-[10px] font-black text-slate-900 tracking-tight uppercase">${car.number_plate}</span>
+                        </td>
+                        <td class="px-5 py-3">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-black text-slate-700 uppercase tracking-wide truncate w-48">${car.model}</span>
+                                <span class="text-[8px] font-bold text-slate-400 capitalize">${car.make || 'Generic'}</span>
+                            </div>
+                        </td>
+                        <td class="px-5 py-3 text-center">
+                            <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-500 text-[9px] font-black">${car.year}</span>
+                        </td>
+                        <td class="px-5 py-3">
+                            <span class="text-[10px] font-black text-indigo-600 tracking-tight">Ush ${car.price.toLocaleString()}</span>
+                        </td>
+                        <td class="px-5 py-3 text-right">
+                            <div class="flex justify-end gap-1.5 opacity-0 group-hover:opacity-100 transition-all">
+                                <a href="/cars/edit/${car.id}" class="w-7 h-7 flex items-center justify-center bg-white border border-slate-200 text-slate-400 hover:text-indigo-600 hover:border-indigo-500 rounded-lg transition-all shadow-sm">
+                                    <i class="fas fa-edit text-[9px]"></i>
+                                </a>
+                                <a href="/cars/sell/${car.id}" class="w-7 h-7 flex items-center justify-center premium-gradient text-white rounded-lg transition-all shadow-md">
+                                    <i class="fas fa-hand-holding-dollar text-[9px]"></i>
+                                </a>
+                            </div>
+                        </td>
+                    `;
+                    carInventoryBody.appendChild(row);
+                });
+                carPage++;
+                carHasMore = data.has_more;
+            } else {
+                carHasMore = false;
+                if (carPage === 1) document.getElementById("carEmptyState").classList.remove("hidden");
+            }
+        } catch (error) {
+            console.error("Error loading car inventory:", error);
+        } finally {
+            carLoading = false;
+            carLoadingIndicator.classList.add("hidden");
+        }
+    }
+
+    const carObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !carLoading && carHasMore) {
+            loadCarInventory(carSearchInput.value);
+        }
+    }, { threshold: 0.1 });
+
+    carObserver.observe(loadMoreCarsTrigger);
+
+    let carDebounceTimer;
+    carSearchInput.addEventListener("input", function () {
+        clearTimeout(carDebounceTimer);
+        carDebounceTimer = setTimeout(() => {
+            carPage = 1;
+            carHasMore = true;
+            carInventoryBody.innerHTML = "";
+            loadCarInventory(this.value);
+        }, 300);
+    });
+
+    let debtPage = 1;
+    let debtLoading = false;
+    let debtHasMore = true;
+    const activeDebtsBody = document.getElementById("activeDebtsBody");
+    const debtSearchInput = document.getElementById("debtSearchInput");
+    const debtLoadingIndicator = document.getElementById("debtLoadingIndicator");
+
+    async function loadActiveDebts(searchTerm = "") {
+        if (debtLoading || !debtHasMore) return;
+        debtLoading = true;
+        debtLoadingIndicator.classList.remove("hidden");
+        document.getElementById("debtEmptyState").classList.add("hidden");
+
+        try {
+            const response = await fetch(`/api/active-debts?page=${debtPage}&search=${encodeURIComponent(searchTerm)}`);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const data = await response.json();
+
+            if (data.debts && data.debts.length > 0) {
+                data.debts.forEach(debt => {
+                    const row = document.createElement("tr");
+                    row.className = "group hover:bg-slate-50/80 transition-all duration-200 border-b border-slate-50 last:border-0";
+
+                    const deadline = new Date(debt.payment_deadline);
+                    const now = new Date();
+                    const diffDays = Math.ceil((deadline - now) / (1000 * 60 * 60 * 24));
+                    const statusClass = diffDays < 0 ? "bg-rose-50 text-rose-600 border-rose-100" : diffDays <= 7 ? "bg-amber-50 text-amber-600 border-amber-100" : "bg-emerald-50 text-emerald-600 border-emerald-100";
+                    const statusText = diffDays < 0 ? `${Math.abs(diffDays)}d overdue` : `${diffDays}d left`;
+
+                    row.innerHTML = `
+                        <td class="px-5 py-3">
+                            <span class="text-[10px] font-black text-slate-900 tracking-tight uppercase">${debt.car_number_plate || 'N/A'}</span>
+                        </td>
+                        <td class="px-5 py-3">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-black text-slate-700 uppercase tracking-wide truncate w-48">${debt.client_name || 'N/A'}</span>
+                                <a href="tel:${debt.client_phone}" class="text-[8px] font-bold text-indigo-500 hover:underline transition-colors">${debt.client_phone || 'N/A'}</a>
+                            </div>
+                        </td>
+                        <td class="px-5 py-3">
+                            <span class="text-[10px] font-black text-rose-600 tracking-tight">Ush ${debt.remaining_balance.toLocaleString()}</span>
+                        </td>
+                        <td class="px-5 py-3">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-tight border ${statusClass}">${statusText}</span>
+                                <span class="text-[8px] font-black text-slate-300 uppercase tracking-widest">${deadline.toLocaleDateString()}</span>
+                            </div>
+                        </td>
+                    `;
+                    activeDebtsBody.appendChild(row);
+                });
+                debtPage++;
+                debtHasMore = data.has_more;
+            } else {
+                debtHasMore = false;
+                if (debtPage === 1) document.getElementById("debtEmptyState").classList.remove("hidden");
+            }
+        } catch (error) {
+            console.error("Error loading debts:", error);
+        } finally {
+            debtLoading = false;
+            debtLoadingIndicator.classList.add("hidden");
+        }
+    }
+
+    let debtDebounceTimer;
+    debtSearchInput.addEventListener("input", function () {
+        clearTimeout(debtDebounceTimer);
+        debtDebounceTimer = setTimeout(() => {
+            debtPage = 1;
+            debtHasMore = true;
+            activeDebtsBody.innerHTML = "";
+            loadActiveDebts(this.value);
+        }, 300);
+    });
+
+    // Initial load
+    fetchDashboardStats();
+    loadCarInventory();
+    loadActiveDebts();
+</script>
