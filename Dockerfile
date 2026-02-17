@@ -30,10 +30,10 @@ COPY --from=builder /app/app/templates ./app/templates
 COPY --from=builder /app/app/static ./app/static 
 
 # Set environment variables
-ENV PORT=3000
+ENV PORT=8082
 
 # Expose port
-EXPOSE 3000
+EXPOSE 8082
 
 # Run the application
 CMD ["./mms"]
