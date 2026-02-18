@@ -34,7 +34,9 @@ func GetAllCars(db *sql.DB, search string, sold *bool, limit, offset int) ([]*mo
 
 	limitIdx := len(args) + 1
 	offsetIdx := len(args) + 2
-	query := `SELECT id, make, model, year, color, engine_number, chassis_number, price, purchase_price, sold, client_id, seller_id, number_plate, created_at, updated_at
+	query := `SELECT id, make, model, year, color, engine_number, chassis_number, 
+			  (COALESCE(purchase_price, 0) + COALESCE((SELECT SUM(amount) FROM expenses WHERE car_id = cars.id), 0)) as price, 
+			  purchase_price, sold, client_id, seller_id, number_plate, created_at, updated_at
 			  FROM cars ` + whereClause + ` ORDER BY created_at DESC LIMIT $` + string(rune(48+limitIdx)) + ` OFFSET $` + string(rune(48+offsetIdx))
 
 	args = append(args, limit, offset)
@@ -57,7 +59,10 @@ func GetAllCars(db *sql.DB, search string, sold *bool, limit, offset int) ([]*mo
 
 func GetCarByID(db *sql.DB, id string) (*models.Car, error) {
 	c := &models.Car{}
-	query := `SELECT id, make, model, year, color, engine_number, chassis_number, price, purchase_price, sold, client_id, seller_id, number_plate, created_at, updated_at FROM cars WHERE id = $1`
+	query := `SELECT id, make, model, year, color, engine_number, chassis_number, 
+			  (COALESCE(purchase_price, 0) + COALESCE((SELECT SUM(amount) FROM expenses WHERE car_id = cars.id), 0)) as price, 
+			  purchase_price, sold, client_id, seller_id, number_plate, created_at, updated_at 
+			  FROM cars WHERE id = $1`
 	err := db.QueryRow(query, id).Scan(&c.ID, &c.Make, &c.Model, &c.Year, &c.Color, &c.EngineNumber, &c.ChassisNumber, &c.Price, &c.PurchasePrice, &c.Sold, &c.ClientID, &c.SellerID, &c.NumberPlate, &c.CreatedAt, &c.UpdatedAt)
 	if err != nil {
 		return nil, err
@@ -82,9 +87,9 @@ func GetDashboardStats(db *sql.DB) (map[string]interface{}, error) {
 	}
 	stats["total_cars"] = totalCars
 
-	// Total Value (sum of prices of all cars)
+	// Total Value (sum of purchase_price + expenses of all cars)
 	var totalValue sql.NullFloat64
-	err = db.QueryRow("SELECT SUM(price) FROM cars").Scan(&totalValue)
+	err = db.QueryRow("SELECT SUM(COALESCE(purchase_price, 0)) + COALESCE((SELECT SUM(amount) FROM expenses), 0) FROM cars").Scan(&totalValue)
 	if err != nil {
 		return nil, err
 	}
