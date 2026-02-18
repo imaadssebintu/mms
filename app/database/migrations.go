@@ -108,6 +108,7 @@ func RunMigrations(db *sql.DB) error {
 		"ALTER TABLE cars ADD COLUMN IF NOT EXISTS seller_id UUID",
 		"ALTER TABLE cars DROP CONSTRAINT IF EXISTS cars_seller_id_fkey",
 		"ALTER TABLE cars ADD CONSTRAINT cars_seller_id_fkey FOREIGN KEY (seller_id) REFERENCES clients(id) ON DELETE SET NULL",
+		"ALTER TABLE expenses ADD COLUMN IF NOT EXISTS client_id UUID REFERENCES clients(id) ON DELETE SET NULL",
 	}
 
 	for _, q := range alterQueries {
