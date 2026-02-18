@@ -99,6 +99,24 @@ func RunMigrations(db *sql.DB) error {
 		}
 	}
 
+	// Add new columns to cars table if they don't exist
+	alterQueries := []string{
+		"ALTER TABLE cars ADD COLUMN IF NOT EXISTS color VARCHAR(50)",
+		"ALTER TABLE cars ADD COLUMN IF NOT EXISTS engine_number VARCHAR(100)",
+		"ALTER TABLE cars ADD COLUMN IF NOT EXISTS chassis_number VARCHAR(100)",
+		"ALTER TABLE cars ADD COLUMN IF NOT EXISTS purchase_price DECIMAL(15, 2)",
+		"ALTER TABLE cars ADD COLUMN IF NOT EXISTS seller_id UUID",
+		"ALTER TABLE cars DROP CONSTRAINT IF EXISTS cars_seller_id_fkey",
+		"ALTER TABLE cars ADD CONSTRAINT cars_seller_id_fkey FOREIGN KEY (seller_id) REFERENCES clients(id) ON DELETE SET NULL",
+	}
+
+	for _, q := range alterQueries {
+		if _, err := db.Exec(q); err != nil {
+			log.Printf("Migration warning (alter): %v", err)
+			// Don't fail matching logic, just log warning as column might exist
+		}
+	}
+
 	log.Println("Database migrations completed successfully")
 	return nil
 }

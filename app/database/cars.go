@@ -6,13 +6,14 @@ import (
 )
 
 func CreateCar(db *sql.DB, car *models.Car) error {
-	query := `INSERT INTO cars (make, model, year, price, sold, client_id, number_plate, updated_at)
-			  VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())
+	query := `INSERT INTO cars (make, model, year, color, engine_number, chassis_number, price, purchase_price, sold, client_id, seller_id, number_plate, updated_at)
+			  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW())
 			  RETURNING id, created_at, updated_at`
 
-	return db.QueryRow(query, car.Make, car.Model, car.Year, car.Price, car.Sold, car.ClientID, car.NumberPlate).Scan(
-		&car.ID, &car.CreatedAt, &car.UpdatedAt,
-	)
+	return db.QueryRow(query,
+		car.Make, car.Model, car.Year, car.Color, car.EngineNumber, car.ChassisNumber,
+		car.Price, car.PurchasePrice, car.Sold, car.ClientID, car.SellerID, car.NumberPlate,
+	).Scan(&car.ID, &car.CreatedAt, &car.UpdatedAt)
 }
 
 func GetAllCars(db *sql.DB, search string, sold *bool, limit, offset int) ([]*models.Car, int, error) {
@@ -33,7 +34,7 @@ func GetAllCars(db *sql.DB, search string, sold *bool, limit, offset int) ([]*mo
 
 	limitIdx := len(args) + 1
 	offsetIdx := len(args) + 2
-	query := `SELECT id, make, model, year, price, sold, client_id, number_plate, created_at, updated_at
+	query := `SELECT id, make, model, year, color, engine_number, chassis_number, price, purchase_price, sold, client_id, seller_id, number_plate, created_at, updated_at
 			  FROM cars ` + whereClause + ` ORDER BY created_at DESC LIMIT $` + string(rune(48+limitIdx)) + ` OFFSET $` + string(rune(48+offsetIdx))
 
 	args = append(args, limit, offset)
@@ -46,7 +47,7 @@ func GetAllCars(db *sql.DB, search string, sold *bool, limit, offset int) ([]*mo
 	var cars []*models.Car
 	for rows.Next() {
 		c := &models.Car{}
-		if err := rows.Scan(&c.ID, &c.Make, &c.Model, &c.Year, &c.Price, &c.Sold, &c.ClientID, &c.NumberPlate, &c.CreatedAt, &c.UpdatedAt); err != nil {
+		if err := rows.Scan(&c.ID, &c.Make, &c.Model, &c.Year, &c.Color, &c.EngineNumber, &c.ChassisNumber, &c.Price, &c.PurchasePrice, &c.Sold, &c.ClientID, &c.SellerID, &c.NumberPlate, &c.CreatedAt, &c.UpdatedAt); err != nil {
 			return nil, 0, err
 		}
 		cars = append(cars, c)
@@ -56,8 +57,8 @@ func GetAllCars(db *sql.DB, search string, sold *bool, limit, offset int) ([]*mo
 
 func GetCarByID(db *sql.DB, id string) (*models.Car, error) {
 	c := &models.Car{}
-	query := `SELECT id, make, model, year, price, sold, client_id, number_plate, created_at, updated_at FROM cars WHERE id = $1`
-	err := db.QueryRow(query, id).Scan(&c.ID, &c.Make, &c.Model, &c.Year, &c.Price, &c.Sold, &c.ClientID, &c.NumberPlate, &c.CreatedAt, &c.UpdatedAt)
+	query := `SELECT id, make, model, year, color, engine_number, chassis_number, price, purchase_price, sold, client_id, seller_id, number_plate, created_at, updated_at FROM cars WHERE id = $1`
+	err := db.QueryRow(query, id).Scan(&c.ID, &c.Make, &c.Model, &c.Year, &c.Color, &c.EngineNumber, &c.ChassisNumber, &c.Price, &c.PurchasePrice, &c.Sold, &c.ClientID, &c.SellerID, &c.NumberPlate, &c.CreatedAt, &c.UpdatedAt)
 	if err != nil {
 		return nil, err
 	}

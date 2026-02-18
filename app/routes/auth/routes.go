@@ -37,12 +37,18 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	}
 
 	if tokenString == "" {
-		return c.Status(401).JSON(fiber.Map{"error": "Unauthorized"})
+		if strings.HasPrefix(c.Path(), "/api/") {
+			return c.Status(401).JSON(fiber.Map{"error": "Unauthorized"})
+		}
+		return c.Redirect("/auth/login")
 	}
 
 	claims, err := ValidateJWT(tokenString)
 	if err != nil {
-		return c.Status(401).JSON(fiber.Map{"error": "Invalid token"})
+		if strings.HasPrefix(c.Path(), "/api/") {
+			return c.Status(401).JSON(fiber.Map{"error": "Invalid token"})
+		}
+		return c.Redirect("/auth/login")
 	}
 
 	// Fetch full user from database to get all fields (CompanyName, etc.)

@@ -53,3 +53,13 @@ func GetClientByID(db *sql.DB, id string) (*models.Client, error) {
 	}
 	return c, nil
 }
+
+func GetClientByNameAndPhone(db *sql.DB, name, phone string) (*models.Client, error) {
+	c := &models.Client{}
+	query := `SELECT id, name, email, phone, address, notes, created_at, updated_at FROM clients WHERE name = $1 AND phone = $2 LIMIT 1`
+	err := db.QueryRow(query, name, phone).Scan(&c.ID, &c.Name, &c.Email, &c.Phone, &c.Address, &c.Notes, &c.CreatedAt, &c.UpdatedAt)
+	if err != nil {
+		return nil, err
+	}
+	return c, nil
+}
